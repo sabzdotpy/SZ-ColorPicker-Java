@@ -1,0 +1,84 @@
+#root {
+    -fx-background-color: rgba(0, 0, 0, 0);
+    -fx-background-radius: 20px;
+}
+
+#titlebar {
+    -fx-background-radius: 20 20 0 0;
+    -fx-background-color: rgba(42, 42, 42, 0.93);
+}
+
+#close {
+    -fx-background-radius: 0 20 0 0;
+    -fx-background-color: rgba(60, 60, 60, 0.8);
+    -fx-text-fill: rgb(200, 200, 200);
+}
+
+#close:hover {
+    -fx-background-color: rgba(230, 60, 60, 0.95);
+    -fx-text-fill: rgb(250, 250, 250);
+}
+
+#minimize {
+	-fx-text-fill: rgb(180, 180, 180);
+	-fx-background-color: rgba(60, 60, 60, 0.8);
+	-fx-background-radius: 0;
+}
+
+#minimize:hover {
+	-fx-background-color: rgba(100, 100, 100, 0.95);
+	-fx-text-fill: rgb(250, 250, 250);
+}
+
+#base {
+    -fx-background-color: rgba(60, 60, 60, 0.98);
+    -fx-background-radius: 0 0 20 20;
+}
+
+#slider_base {
+    -fx-background-color: rgb(80, 80, 80);
+    -fx-background-radius: 0 0 0 20;
+}
+
+#input_base {
+    -fx-background-color: rgb(80, 80, 80);
+    -fx-background-radius: 0 0 20 0;
+}
+
+#red_slider, #green_slider, #blue_slider {
+    -fx-background-color: transparent;
+}
+
+#red_slider .track, #green_slider .track, #blue_slider .track {
+    -fx-background-color: rgba(30, 30, 30, 0.1);
+    -fx-pref-height: 10px;
+}
+
+#red_slider .thumb {
+    -fx-color: rgba(255, 0, 0, 0.7);
+    -fx-cursor: HAND;
+    -fx-border-radius: 20px;
+    -fx-border-color: rgba(10,10,10, 0.4);
+}
+
+#green_slider .thumb {
+    -fx-color: rgba(0, 255, 0, 0.7);
+    -fx-cursor: HAND;
+    -fx-border-radius: 20px;
+    -fx-border-color: rgba(10,10,10, 0.4);
+}
+
+#blue_slider .thumb {
+    -fx-color: rgba(0, 0, 255, 0.7);
+    -fx-cursor: HAND;
+    -fx-border-radius: 20px;
+    -fx-border-color: rgba(10,10,10, 0.4);
+}
+
+#rgb_input, #hsl_input, #hex_input {
+    -fx-background-radius: 20px;
+}
+
+#rgb_label, #hsl_label, #hex_label {
+    -fx-text-fill: rgb(200, 200, 200);
+}
