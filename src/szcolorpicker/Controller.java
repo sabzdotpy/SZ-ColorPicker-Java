@@ -34,8 +34,8 @@ public class Controller implements Initializable {
     Color colorpicker_color;
     Stage stage;
 
-    double oldX;
-    double oldY;
+    private double oldX;
+    private double oldY;
 
     @FXML
     Button close;
@@ -80,15 +80,13 @@ public class Controller implements Initializable {
 
     @FXML
     private void titleBarPressed(MouseEvent event) {
-        System.out.println("title press");
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-        oldX = stage.getX()- event.getScreenX();
-        oldY = stage.getY()- event.getScreenY();
+        oldX = stage.getX() - event.getScreenX();
+        oldY = stage.getY() - event.getScreenY();
     }
 
     @FXML
     private void titleBarDragged(MouseEvent event) {
-        System.out.println("title drag");
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         stage.setX(oldX + event.getScreenX());
         stage.setY(oldY + event.getScreenY());
@@ -104,7 +102,8 @@ public class Controller implements Initializable {
         ((Stage)(((Button)event.getSource()).getScene().getWindow())).setIconified(true);
     }
 
-    @FXML void openURL() throws URISyntaxException, IOException {
+    @FXML
+    private void openURL() throws URISyntaxException, IOException {
         Desktop.getDesktop().browse(new URI("https://www.github.com/sabzdotpy"));
     }
 
@@ -116,7 +115,6 @@ public class Controller implements Initializable {
             blue_val = (int)(blue_slider.getValue());
 
             slider_base.setStyle("-fx-background-color: rgb(" + red_val + ", " + green_val + "," + blue_val + ");" );
-
 
             rgb_input.setText( red_val + ", " + green_val + ", " + blue_val );
             hsl_input.setText(Conversion.rgbToHsv(red_val, green_val, blue_val));
@@ -171,9 +169,9 @@ public class Controller implements Initializable {
 
                 String rgbStore = Conversion.hsvToRGB( Integer.parseInt(textinfield[0]), Integer.parseInt(textinfield[1]), Integer.parseInt(textinfield[2]));
 
+                rgb_input.setText(rgbStore);
                 hex_input.setText("#" + Conversion.hsvToHEX( Integer.parseInt(textinfield[0]), Integer.parseInt(textinfield[1]), Integer.parseInt(textinfield[2])).substring(2,8));
 
-                rgb_input.setText(rgbStore);
                 slider_base.setStyle("-fx-background-color: rgb(" + rgbStore + ");");
                 red_slider.setValue( Integer.parseInt(rgbStore.split(",")[0]) );
                 green_slider.setValue( Integer.parseInt(rgbStore.split(",")[1]) );
@@ -219,11 +217,13 @@ public class Controller implements Initializable {
                         String rgbValue = Conversion.hexToRGB(newValue);
                         rgb_input.setText(rgbValue);
                         hsl_input.setText(Conversion.hexToHSV(newValue));
+                        hex_input.setText("#" + newValue);
+
                         slider_base.setStyle("-fx-background-color: #" + newValue + ";");
+
                         red_slider.setValue( Integer.parseInt(rgbValue.split(",")[0]) );
                         green_slider.setValue( Integer.parseInt(rgbValue.split(",")[1]) );
                         blue_slider.setValue( Integer.parseInt(rgbValue.split(",")[2]) );
-                        hex_input.setText("#" + newValue);
                     }
 
                 }
