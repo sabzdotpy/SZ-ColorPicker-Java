@@ -1,12 +1,13 @@
 package szcolorpicker;
 
 import javafx.event.ActionEvent;
-import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.control.Button;
@@ -178,6 +179,33 @@ public class Controller implements Initializable {
         }
     }
 
+    public void enterPressedHEX(KeyEvent event) {
+        if (event.getCode().equals(KeyCode.ENTER) && processes == 0) {
+                processes++;
+                try {
+                    String newValue = hex_input.getText().replace("#", "");
+
+                    if (newValue.length() == 3) {
+                        newValue = newValue + newValue;
+
+                        String rgbValue = Conversion.hexToRGB(newValue);
+                        rgb_input.setText(rgbValue);
+                        hsl_input.setText(Conversion.hexToHSV(newValue));
+                        slider_base.setStyle("-fx-background-color: #" + newValue + ";");
+                        red_slider.setValue( Integer.parseInt(rgbValue.split(",")[0]) );
+                        green_slider.setValue( Integer.parseInt(rgbValue.split(",")[1]) );
+                        blue_slider.setValue( Integer.parseInt(rgbValue.split(",")[2]) );
+                        hex_input.setText("#" + newValue);
+                    }
+
+                }
+                catch (Exception e) {
+                    System.out.print("");
+                }
+
+                processes--;
+        }
+    }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -195,7 +223,7 @@ public class Controller implements Initializable {
         rgb_input.textProperty().addListener(this::textChangedRGB);
         hsl_input.textProperty().addListener(this::textChangedHSV);
         hex_input.textProperty().addListener(this::textChangedHEX);
-//        hex_input.setOnKeyPressed();
+        hex_input.setOnKeyPressed(this::enterPressedHEX);
 
         slider_base.setStyle("-fx-background-color: rgb(" + init_red + ", " + init_green + "," + init_blue + ");" );
 
