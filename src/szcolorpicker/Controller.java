@@ -217,17 +217,23 @@ public class Controller implements Initializable {
     }
 
     public void colorPickedHandle(ActionEvent t) {
-        colorpicker_color = colorpicker.getValue();
-        hex_input.setText("#" + colorpicker_color.toString().substring(2, 8));
+        if (processes == 0) {
+            processes++;
 
-        rgb_input.setText((int)(colorpicker_color.getRed()*255) + "," + (int)(colorpicker_color.getGreen() * 255) + "," + (int)(colorpicker_color.getBlue() * 255));
-        hsl_input.setText((int)(colorpicker_color.getHue()*360) + "," + (int)(colorpicker_color.getSaturation() * 100) + "," + (int)(colorpicker_color.getBrightness() * 100));
+            colorpicker_color = colorpicker.getValue();
 
-        red_slider.setValue((int)(colorpicker_color.getRed()*255));
-        green_slider.setValue((int)(colorpicker_color.getGreen()*255));
-        blue_slider.setValue((int)(colorpicker_color.getBlue()*255));
+            rgb_input.setText((int)(colorpicker_color.getRed()*255) + "," + (int)(colorpicker_color.getGreen() * 255) + "," + (int)(colorpicker_color.getBlue() * 255));
+            hsl_input.setText((int)(colorpicker_color.getHue()*360) + "," + (int)(colorpicker_color.getSaturation() * 100) + "," + (int)(colorpicker_color.getBrightness() * 100));
+            hex_input.setText("#" + colorpicker_color.toString().substring(2, 8));
 
-        slider_base.setStyle("-fx-background-color: #" + colorpicker_color.toString().substring(2, 8) + ";");
+            red_slider.setValue((int)(colorpicker_color.getRed()*255));
+            green_slider.setValue((int)(colorpicker_color.getGreen()*255));
+            blue_slider.setValue((int)(colorpicker_color.getBlue()*255));
+
+            slider_base.setStyle("-fx-background-color: #" + colorpicker_color.toString().substring(2, 8) + ";");
+
+            processes--;
+        }
 
     }
 
