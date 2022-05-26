@@ -3,20 +3,24 @@ package szcolorpicker;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.*;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
-import javafx.scene.control.Button;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 import javafx.beans.value.ObservableValue;
 
+import java.awt.*;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
-import java.util.Arrays;
 import java.util.Random;
 import java.util.ResourceBundle;
 
@@ -27,7 +31,7 @@ public class Controller implements Initializable {
 
     private int processes = 0;
     private Random random = new Random();
-
+    Color colorpicker_color;
 
     @FXML
     Button close;
@@ -61,6 +65,9 @@ public class Controller implements Initializable {
     TextField hex_input;
 
     @FXML
+    ColorPicker colorpicker;
+
+    @FXML
     Label link;
 
     private int red_val;
@@ -78,6 +85,9 @@ public class Controller implements Initializable {
         ((Stage)(((Button)event.getSource()).getScene().getWindow())).setIconified(true);
     }
 
+    @FXML void openURL() throws URISyntaxException, IOException {
+        Desktop.getDesktop().browse(new URI("https://www.github.com/sabzdotpy"));
+    }
 
     private void valueChanged(ObservableValue<? extends Number> observableValue, Number oldValue, Number newValue) {
         if (processes == 0) {
@@ -140,7 +150,6 @@ public class Controller implements Initializable {
                 newValue = newValue.replaceAll(" ", "");
                 String[] textinfield = newValue.replace("(", "").replace(")", "").split(",");
 
-                System.out.println(Arrays.toString(textinfield));
                 String rgbStore = Conversion.hsvToRGB( Integer.parseInt(textinfield[0]), Integer.parseInt(textinfield[1]), Integer.parseInt(textinfield[2]));
 
                 hex_input.setText("#" + Conversion.hsvToHEX( Integer.parseInt(textinfield[0]), Integer.parseInt(textinfield[1]), Integer.parseInt(textinfield[2])).substring(2,8));
@@ -207,6 +216,22 @@ public class Controller implements Initializable {
         }
     }
 
+    public void colorPickedHandle(ActionEvent t) {
+        colorpicker_color = colorpicker.getValue();
+        hex_input.setText("#" + colorpicker_color.toString().substring(2, 8));
+
+        rgb_input.setText((int)(colorpicker_color.getRed()*255) + "," + (int)(colorpicker_color.getGreen() * 255) + "," + (int)(colorpicker_color.getBlue() * 255));
+        hsl_input.setText((int)(colorpicker_color.getHue()*360) + "," + (int)(colorpicker_color.getSaturation() * 100) + "," + (int)(colorpicker_color.getBrightness() * 100));
+
+        red_slider.setValue((int)(colorpicker_color.getRed()*255));
+        green_slider.setValue((int)(colorpicker_color.getGreen()*255));
+        blue_slider.setValue((int)(colorpicker_color.getBlue()*255));
+
+        slider_base.setStyle("-fx-background-color: #" + colorpicker_color.toString().substring(2, 8) + ";");
+
+    }
+
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
@@ -225,6 +250,8 @@ public class Controller implements Initializable {
         hex_input.textProperty().addListener(this::textChangedHEX);
         hex_input.setOnKeyPressed(this::enterPressedHEX);
 
+        colorpicker.setOnAction(this::colorPickedHandle);
+
         slider_base.setStyle("-fx-background-color: rgb(" + init_red + ", " + init_green + "," + init_blue + ");" );
 
         red_slider.setValue(init_red);
@@ -235,7 +262,7 @@ public class Controller implements Initializable {
         hsl_input.setText(Conversion.rgbToHsv(init_red, init_green, init_blue));
         hex_input.setText("#" + Conversion.rgbToHex( init_red, init_green, init_blue ).substring(2, 8));
 
-
+        colorpicker.setValue(Color.rgb(init_red, init_green, init_blue));
 
         System.out.println("...");
 

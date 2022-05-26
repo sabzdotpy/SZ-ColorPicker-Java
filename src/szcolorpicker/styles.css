@@ -90,3 +90,7 @@
 #link:hover {
     -fx-text-fill: rgb(230, 230, 230);
 }
+
+#colorpicker {
+    -fx-color-label-visible: false ;
+}

@@ -24,9 +24,6 @@ class Conversion {
         s = s / 100;
         v = v / 100;
 
-        System.out.println(h + ", " + s + ", " + v);
-
-
         if (s == 0) { return (v + "," + v + "," + v); }
         int i = (int)(h * 6.0);
         double f = (h * 6.0) - i;

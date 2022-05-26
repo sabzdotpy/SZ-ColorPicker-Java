@@ -50,7 +50,7 @@
                         <Cursor fx:constant="DEFAULT" />
                      </cursor>
                   </Slider>
-                  <ColorPicker layoutX="87.0" layoutY="158.0" prefHeight="22.0" prefWidth="82.0" promptText="HTML">
+                  <ColorPicker fx:id="colorpicker" layoutX="119.0" layoutY="158.0" prefHeight="30.0" prefWidth="30.0" promptText="HTML">
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>
@@ -61,7 +61,7 @@
                   <TextField fx:id="rgb_input" layoutX="14.0" layoutY="26.0" prefHeight="30.0" prefWidth="134.0" />
                   <TextField fx:id="hsl_input" layoutX="14.0" layoutY="80.0" prefHeight="30.0" />
                   <TextField fx:id="hex_input" layoutX="14.0" layoutY="134.0" prefHeight="30.0" />
-                  <Label fx:id="link" layoutX="79.0" layoutY="175.0" text="Made by Sabz">
+                  <Label fx:id="link" layoutX="79.0" layoutY="175.0" onMouseClicked="#openURL" text="Made by Sabz">
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor></Label>
