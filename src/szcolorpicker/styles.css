@@ -82,3 +82,11 @@
 #rgb_label, #hsl_label, #hex_label {
     -fx-text-fill: rgb(200, 200, 200);
 }
+
+#link {
+    -fx-text-fill: rgb(180, 180, 180);
+}
+
+#link:hover {
+    -fx-text-fill: rgb(230, 230, 230);
+}

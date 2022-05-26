@@ -1,8 +1,10 @@
 package szcolorpicker;
 
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
@@ -13,6 +15,7 @@ import javafx.stage.Stage;
 import javafx.beans.value.ObservableValue;
 
 import java.net.URL;
+import java.util.Arrays;
 import java.util.Random;
 import java.util.ResourceBundle;
 
@@ -21,8 +24,7 @@ public class Controller implements Initializable {
 
 //    private String text_in_display;
 
-    private int processes;
-
+    private int processes = 0;
     private Random random = new Random();
 
 
@@ -57,9 +59,13 @@ public class Controller implements Initializable {
     @FXML
     TextField hex_input;
 
+    @FXML
+    Label link;
+
     private int red_val;
     private int green_val;
     private int blue_val;
+
 
     @FXML
     private void closeWindow(ActionEvent event) {
@@ -83,7 +89,7 @@ public class Controller implements Initializable {
 
 
             rgb_input.setText( red_val + ", " + green_val + ", " + blue_val );
-            hsl_input.setText(Conversion.rgbToHsb(red_val, green_val, blue_val));
+            hsl_input.setText(Conversion.rgbToHsv(red_val, green_val, blue_val));
             hex_input.setText("#" + Conversion.rgbToHex(red_val, green_val, blue_val).substring(2, 8));
 
             processes--;
@@ -113,7 +119,7 @@ public class Controller implements Initializable {
                 slider_base.setStyle("-fx-background-color: rgb(" + textinfield[0] + ", " + textinfield[1] + "," + textinfield[2] + ");" );
 
                 hex_input.setText("#" + Conversion.rgbToHex(text_int[0], text_int[1], text_int[2]).substring(2, 8));
-                hsl_input.setText(Conversion.rgbToHsb(text_int[0], text_int[1], text_int[2]));
+                hsl_input.setText(Conversion.rgbToHsv(text_int[0], text_int[1], text_int[2]));
 
             }
             catch(Exception e) {
@@ -126,13 +132,23 @@ public class Controller implements Initializable {
 
     }
 
-    private void textChangedHSB(ObservableValue<? extends String> observableValue, String oldValue, String newValue) {
+    private void textChangedHSV(ObservableValue<? extends String> observableValue, String oldValue, String newValue) {
         if (processes == 0) {
             processes++;
             try {
-                System.out.println(newValue);
+                newValue = newValue.replaceAll(" ", "");
                 String[] textinfield = newValue.replace("(", "").replace(")", "").split(",");
-                Conversion.hsbToRGB( Integer.parseInt(textinfield[0]), Integer.parseInt(textinfield[1]), Integer.parseInt(textinfield[2]) );
+
+                System.out.println(Arrays.toString(textinfield));
+                String rgbStore = Conversion.hsvToRGB( Integer.parseInt(textinfield[0]), Integer.parseInt(textinfield[1]), Integer.parseInt(textinfield[2]));
+
+                hex_input.setText("#" + Conversion.hsvToHEX( Integer.parseInt(textinfield[0]), Integer.parseInt(textinfield[1]), Integer.parseInt(textinfield[2])).substring(2,8));
+
+                rgb_input.setText(rgbStore);
+                slider_base.setStyle("-fx-background-color: rgb(" + rgbStore + ");");
+                red_slider.setValue( Integer.parseInt(rgbStore.split(",")[0]) );
+                green_slider.setValue( Integer.parseInt(rgbStore.split(",")[1]) );
+                blue_slider.setValue( Integer.parseInt(rgbStore.split(",")[2]) );
 
             }
             catch (Exception e) {
@@ -150,7 +166,9 @@ public class Controller implements Initializable {
                 newValue = newValue.replace("#", "");
 
                 rgb_input.setText(Conversion.hexToRGB(newValue));
-                hsl_input.setText(Conversion.hexToHSB(newValue));
+                hsl_input.setText(Conversion.hexToHSV(newValue));
+                slider_base.setStyle("-fx-background-color: #" + newValue + ";");
+
             }
             catch (Exception e) {
                 System.out.print("");
@@ -166,11 +184,18 @@ public class Controller implements Initializable {
 
         System.out.println("App initialize");
 
-        processes = 0;
-
         int init_red = random.nextInt(256);
         int init_green = random.nextInt(256);
         int init_blue = random.nextInt(256);
+
+        red_slider.valueProperty().addListener(this::valueChanged);
+        green_slider.valueProperty().addListener(this::valueChanged);
+        blue_slider.valueProperty().addListener(this::valueChanged);
+
+        rgb_input.textProperty().addListener(this::textChangedRGB);
+        hsl_input.textProperty().addListener(this::textChangedHSV);
+        hex_input.textProperty().addListener(this::textChangedHEX);
+//        hex_input.setOnKeyPressed();
 
         slider_base.setStyle("-fx-background-color: rgb(" + init_red + ", " + init_green + "," + init_blue + ");" );
 
@@ -178,15 +203,11 @@ public class Controller implements Initializable {
         green_slider.setValue(init_green);
         blue_slider.setValue(init_blue);
 
-        rgb_input.setText( (int)init_red + ", " + (int)init_green + ", " + (int)init_blue );
+        rgb_input.setText( init_red + ", " + init_green + ", " + init_blue );
+        hsl_input.setText(Conversion.rgbToHsv(init_red, init_green, init_blue));
+        hex_input.setText("#" + Conversion.rgbToHex( init_red, init_green, init_blue ).substring(2, 8));
 
-        red_slider.valueProperty().addListener(this::valueChanged);
-        green_slider.valueProperty().addListener(this::valueChanged);
-        blue_slider.valueProperty().addListener(this::valueChanged);
 
-        rgb_input.textProperty().addListener(this::textChangedRGB);
-        hsl_input.textProperty().addListener(this::textChangedHSB);
-        hex_input.textProperty().addListener(this::textChangedHEX);
 
         System.out.println("...");
 
