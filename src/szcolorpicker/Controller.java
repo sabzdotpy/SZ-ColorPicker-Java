@@ -3,12 +3,14 @@ package szcolorpicker;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
@@ -27,11 +29,13 @@ import java.util.ResourceBundle;
 @SuppressWarnings("ALL")
 public class Controller implements Initializable {
 
-//    private String text_in_display;
-
     private int processes = 0;
     private Random random = new Random();
     Color colorpicker_color;
+    Stage stage;
+
+    double oldX;
+    double oldY;
 
     @FXML
     Button close;
@@ -74,6 +78,21 @@ public class Controller implements Initializable {
     private int green_val;
     private int blue_val;
 
+    @FXML
+    private void titleBarPressed(MouseEvent event) {
+        System.out.println("title press");
+        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        oldX = stage.getX()- event.getScreenX();
+        oldY = stage.getY()- event.getScreenY();
+    }
+
+    @FXML
+    private void titleBarDragged(MouseEvent event) {
+        System.out.println("title drag");
+        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        stage.setX(oldX + event.getScreenX());
+        stage.setY(oldY + event.getScreenY());
+    }
 
     @FXML
     private void closeWindow(ActionEvent event) {

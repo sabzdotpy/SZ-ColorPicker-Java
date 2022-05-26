@@ -22,7 +22,7 @@
       <RowConstraints />
    </rowConstraints>
    <children>
-      <AnchorPane fx:id="titlebar" prefHeight="29.0" prefWidth="443.0" GridPane.rowIndex="1">
+      <AnchorPane fx:id="titlebar" onMouseDragged="#titleBarDragged" onMousePressed="#titleBarPressed" prefHeight="29.0" prefWidth="443.0" GridPane.rowIndex="1">
          <children>
             <Button fx:id="close" layoutX="401.0" mnemonicParsing="false" onAction="#closeWindow" prefHeight="42.0" prefWidth="42.0" text="X">
                <cursor>
