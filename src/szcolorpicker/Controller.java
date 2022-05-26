@@ -120,6 +120,8 @@ public class Controller implements Initializable {
             hsl_input.setText(Conversion.rgbToHsv(red_val, green_val, blue_val));
             hex_input.setText("#" + Conversion.rgbToHex(red_val, green_val, blue_val).substring(2, 8));
 
+            colorpicker.setValue(Color.rgb(red_val, green_val, blue_val));
+
             processes--;
         }
     }
@@ -149,6 +151,8 @@ public class Controller implements Initializable {
                 hex_input.setText("#" + Conversion.rgbToHex(text_int[0], text_int[1], text_int[2]).substring(2, 8));
                 hsl_input.setText(Conversion.rgbToHsv(text_int[0], text_int[1], text_int[2]));
 
+                colorpicker.setValue(Color.rgb(Integer.parseInt(textinfield[0]), Integer.parseInt(textinfield[1]), Integer.parseInt(textinfield[2])));
+
             }
             catch(Exception e) {
                 System.out.println(e);
@@ -177,6 +181,8 @@ public class Controller implements Initializable {
                 green_slider.setValue( Integer.parseInt(rgbStore.split(",")[1]) );
                 blue_slider.setValue( Integer.parseInt(rgbStore.split(",")[2]) );
 
+                colorpicker.setValue(Color.rgb(Integer.parseInt(rgbStore.split(",")[0]), Integer.parseInt(rgbStore.split(",")[1]), Integer.parseInt(rgbStore.split(",")[2])));
+
             }
             catch (Exception e) {
                 System.out.println(e);
@@ -195,6 +201,8 @@ public class Controller implements Initializable {
                 rgb_input.setText(Conversion.hexToRGB(newValue));
                 hsl_input.setText(Conversion.hexToHSV(newValue));
                 slider_base.setStyle("-fx-background-color: #" + newValue + ";");
+
+                colorpicker.setValue(Color.web(newValue));
 
             }
             catch (Exception e) {
@@ -224,6 +232,8 @@ public class Controller implements Initializable {
                         red_slider.setValue( Integer.parseInt(rgbValue.split(",")[0]) );
                         green_slider.setValue( Integer.parseInt(rgbValue.split(",")[1]) );
                         blue_slider.setValue( Integer.parseInt(rgbValue.split(",")[2]) );
+
+                        colorpicker.setValue(Color.web(newValue));
                     }
 
                 }
